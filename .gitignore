@@ -1,0 +1,4 @@
+# 自检截图产物（shot.py 输出，非交付物）
+site/_shots/
+__pycache__/
+*.pyc

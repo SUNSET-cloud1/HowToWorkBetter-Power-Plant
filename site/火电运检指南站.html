@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>火电运检「如何活得更好」指南 · ZM:PowerPlant</title>
+<meta name="description" content="火电厂运行检修人员的高性价比工作指南：48 条建议，每条标注成本、收益与证据等级（A/B/C），只引用权威标准与规程。在线检索、目录、术语表、核实记录、长文与打勾清单。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2312324A'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23E06A1F'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23F4F5F1'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<style>
+:root{
+  --ink:#1A2430; --steel:#12324A; --steel2:#0C2A40; --paper:#F4F5F1; --card:#FFFFFF;
+  --signal:#E06A1F; --signal-d:#B8521A; --teal:#2E7D72; --red:#B23B3B; --gray:#7E8894;
+  --line:#D9DEDB; --soft:#EAEDE8;
+  --serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","Microsoft YaHei","PingFang SC",sans-serif;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+button,select,input{font-family:var(--sans)}
+a{color:var(--signal-d);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.3}
+
+/* ===== 顶栏 ===== */
+.topbar{position:sticky;top:0;z-index:50;background:var(--steel);color:#fff}
+.topbar-in{display:flex;align-items:center;gap:18px;height:56px;overflow-x:auto;white-space:nowrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:17px;display:flex;align-items:center;gap:9px;color:#fff;flex:none;min-height:44px}
+.brand svg{flex:none}
+.brand:hover{text-decoration:none}
+.topnav{display:flex;gap:4px;margin-left:auto}
+.topnav a{color:#D8E2EA;padding:6px 12px;border-radius:8px;font-size:14.5px;display:inline-flex;align-items:center;min-height:44px}
+.topnav a:hover{background:rgba(255,255,255,.10);text-decoration:none;color:#fff}
+.topnav a.active{background:var(--signal);color:#fff}
+
+/* ===== 视图 ===== */
+.view{display:none;padding:34px 0 60px}
+.view.active{display:block}
+
+/* ===== Hero ===== */
+.hero{background:var(--steel);color:#fff;padding:64px 0 46px}
+.hero .kicker{font-size:13px;letter-spacing:.16em;color:#9FC0D8;margin-bottom:14px}
+.hero h1{font-size:clamp(30px,5vw,46px);font-weight:900;max-width:20em}
+.hero .lead{margin-top:20px;font-size:clamp(16px,1.9vw,18.5px);max-width:42em;color:#E6EDF3}
+.hero .lead2{margin-top:14px;max-width:44em;color:#B9CBD9;font-size:15.5px}
+.hero .note{margin-top:16px;font-size:14.5px;color:#9FC0D8}
+.hero .note b{color:#F5C49B}
+
+/* ===== 统计条 ===== */
+.statsbar{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-top:-26px;position:relative;z-index:2;
+  display:grid;grid-template-columns:repeat(6,1fr);box-shadow:0 10px 30px rgba(18,50,74,.08)}
+.stat{padding:18px 16px;text-align:center;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat .k{font-size:12.5px;color:var(--gray);margin-bottom:6px}
+.stat .v{font-family:var(--serif);font-weight:700;font-size:21px}
+.stat .v.small{font-size:15px;line-height:1.5}
+.stat a.v{color:var(--signal-d);display:inline-block;padding:5px 16px;border-radius:8px;min-height:44px;line-height:34px}
+.stat a.v:hover{text-decoration:none;background:var(--soft)}
+.lv-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:2px}
+.lv-a{background:var(--red)} .lv-b{background:var(--teal)} .lv-c{background:var(--gray)}
+
+/* ===== 章节区块 ===== */
+.section{margin-top:46px}
+.sec-title{font-size:24px;margin-bottom:6px;display:flex;align-items:baseline;gap:12px}
+.sec-title .en{font-size:12.5px;letter-spacing:.14em;color:var(--gray);font-family:var(--mono)}
+.sec-sub{color:var(--gray);font-size:14.5px;margin-bottom:20px;max-width:52em}
+
+/* ===== 卡片网格 ===== */
+.grid{display:grid;gap:14px}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 16px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--signal);transform:translateY(-2px)}
+.card h3{font-size:16.5px;margin-bottom:8px}
+.card p{font-size:14px;color:#3E4A57;line-height:1.7}
+.card .tag{display:inline-block;font-size:12px;color:var(--gray);margin-top:10px;font-family:var(--mono)}
+.card a{color:var(--signal-d)}
+
+/* ===== 声明条 ===== */
+.alertbar{background:#FBF0E4;border:1px solid #EAC89A;border-left:5px solid var(--signal);border-radius:10px;padding:14px 18px;font-size:14.5px;margin-top:38px}
+.alertbar b{color:var(--signal-d)}
+
+/* ===== 条目卡（检索/目录/清单） ===== */
+.entry{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:16px 18px;margin-bottom:12px}
+.entry .head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.entry .id{font-family:var(--mono);font-size:13px;color:var(--signal-d);font-weight:700}
+.entry .title{font-weight:600;font-size:16px}
+.entry .meta{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:13.5px;color:#3E4A57}
+.entry .meta b{color:var(--ink)}
+.entry .ev{margin-left:auto}
+.badge{display:inline-block;min-width:24px;text-align:center;border-radius:6px;color:#fff;font-size:12px;font-weight:700;padding:2px 7px;font-family:var(--mono)}
+.badge.a{background:var(--red)} .badge.b{background:var(--teal)} .badge.c{background:var(--gray)}
+.entry .rel{margin-top:8px;font-size:12.5px;color:var(--gray)}
+
+/* ===== 检索 ===== */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.toolbar input[type=search]{flex:1;min-width:240px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:var(--card);font-family:var(--sans)}
+.toolbar select{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:14px;font-family:var(--sans)}
+.countline{font-size:14px;color:var(--gray);margin-bottom:14px}
+
+/* ===== 章节导航（目录） ===== */
+.toc-ch{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.toc-ch h3{font-size:17px;margin-bottom:4px}
+.toc-ch .cnt{font-size:12.5px;color:var(--gray);margin-bottom:10px}
+.toc-item{display:flex;align-items:baseline;gap:10px;padding:7px 4px;border-top:1px dashed var(--line);cursor:pointer}
+.toc-item:hover{background:var(--soft)}
+.toc-item .id{font-family:var(--mono);font-size:12.5px;color:var(--gray)}
+.toc-item .title{font-size:14.5px;flex:1}
+.toc-item .lv{margin-left:auto}
+
+/* ===== 表格（术语表/来源） ===== */
+.tblwrap{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:auto}
+table.tbl{width:100%;border-collapse:collapse;table-layout:fixed;min-width:640px}
+table.tbl th,table.tbl td{padding:11px 14px;text-align:left;vertical-align:top;font-size:14px;border-bottom:1px solid var(--soft)}
+table.tbl th{background:var(--steel);color:#fff;font-weight:600;position:sticky;top:56px}
+table.tbl th:nth-child(1){width:24%}
+table.tbl th:nth-child(2){width:76%}
+table.tbl tr:last-child td{border-bottom:none}
+.src-cat{margin-bottom:18px}
+.src-cat h4{font-size:16px;margin-bottom:6px;color:var(--steel)}
+.src-cat ul{margin-left:20px;font-size:14px;color:#3E4A57}
+.src-cat li{margin-bottom:4px}
+
+/* ===== 长文 ===== */
+.article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px 30px;margin-bottom:22px}
+.article h3{font-size:21px;margin-bottom:4px}
+.article .a-sub{font-size:13px;color:var(--gray);margin-bottom:16px}
+.article p{margin-bottom:12px;font-size:15px;max-width:44em}
+.article h4{font-size:16px;margin:16px 0 8px;color:var(--steel)}
+.article ul{margin:6px 0 12px 22px;font-size:15px}
+.article li{margin-bottom:5px;max-width:44em}
+
+/* ===== 清单 ===== */
+.chk-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.chk-tabs button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 16px;font-size:13.5px;cursor:pointer;font-family:var(--sans)}
+.chk-tabs button.active{background:var(--steel);color:#fff;border-color:var(--steel)}
+.chk-row{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-bottom:8px}
+.chk-row.done .title{text-decoration:line-through;color:var(--gray)}
+.chk-row .t-title{flex:1;font-size:14.5px}
+.chk-row .t-id{font-family:var(--mono);font-size:12px;color:var(--gray);margin-top:2px}
+.chk-row input[type=checkbox]{width:18px;height:18px;margin-top:3px;accent-color:var(--teal);cursor:pointer}
+.star-btn,.todo-btn{background:none;border:1px solid var(--line);border-radius:8px;width:40px;height:40px;cursor:pointer;flex:none;color:var(--gray);display:inline-flex;align-items:center;justify-content:center}
+.star-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6}
+.star-btn.on{color:var(--signal);border-color:var(--signal)}
+.star-btn.on svg{fill:currentColor}
+.todo-btn{font-size:14px}
+.todo-btn.on{background:var(--signal);color:#fff;border-color:var(--signal)}
+
+/* ===== 页脚 ===== */
+.footer{background:var(--steel);color:#B9CBD9;padding:34px 0 26px;font-size:13.5px}
+.footer .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+.footer h5{color:#fff;font-size:14px;margin-bottom:8px}
+.footer a{color:#9FC0D8}
+.footer .copy{font-size:12.5px;color:#7E96AB}
+
+/* ===== 行内链接按钮 ===== */
+.linkbtn{background:none;border:none;padding:0;color:var(--signal-d);font-size:14px;cursor:pointer;font-family:var(--sans);min-height:44px;display:inline-flex;align-items:center}
+.linkbtn:hover{text-decoration:underline}
+
+/* ===== 响应式 ===== */
+@media (max-width:900px){
+  .statsbar{grid-template-columns:repeat(3,1fr)}
+  .stat:nth-child(3n){border-right:none}
+  .stat:nth-child(-n+3){border-bottom:1px solid var(--line)}
+  .grid.cols-3{grid-template-columns:1fr}
+  .footer .cols{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .topbar-in{height:auto;padding:8px 0;flex-wrap:wrap}
+  .topnav{margin-left:0;width:100%;overflow-x:auto}
+  .entry .meta{grid-template-columns:1fr}
+  .hero{padding:44px 0 38px}
+  .statsbar{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2n){border-right:none}
+  .stat{border-bottom:1px solid var(--line)}
+  .stat:nth-last-child(-n+2){border-bottom:none}
+  .article{padding:20px 18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#home">
+      <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1F4A6E"/><circle cx="32" cy="32" r="14" fill="#E06A1F"/><circle cx="32" cy="32" r="6" fill="#F4F5F1"/></svg>
+      火电运检指南
+    </a>
+    <nav class="topnav" id="topnav">
+      <a href="#home" data-view="home">主页</a>
+      <a href="#search" data-view="search">在线检索</a>
+      <a href="#toc" data-view="toc">目录</a>
+      <a href="#glossary" data-view="glossary">术语表</a>
+      <a href="#sources" data-view="sources">核实记录</a>
+      <a href="#reads" data-view="reads">长文</a>
+      <a href="#checklist" data-view="checklist">打勾清单</a>
+      <a href="#about" data-view="about">关于</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ===== 视图：主页 ===== -->
+<section id="home" class="view active">
+  <div class="hero">
+    <div class="wrap">
+      <div class="kicker">HOW TO WORK BETTER · 火电运检版</div>
+      <h1>火电运检「如何活得更好」指南</h1>
+      <p class="lead">讲怎么少停机、怎么早发现缺陷、出了异常怎么处置。讲两票三制哪些红线不能碰、哪些操作最容易踩坑、检修验收看什么。规程与标准的内容，按中国大陆现行的国标（GB）、行标（DL/T）、行业规程写。</p>
+      <p class="lead2">48 条建议，每条写明<b style="color:#fff">花掉什么</b>（时间/操作风险/负荷影响/协调资源）、<b style="color:#fff">换回什么</b>（可靠性/非停风险/效率/技能成长）、<b style="color:#fff">证据有多硬</b>（A/B/C），来源只引权威标准与规程，经验性条目注明出处。</p>
+      <p class="note">不用全做：这是按性价比排好的<b>备选单</b>，不是任务清单——挑走一两条就算数。</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="statsbar">
+      <div class="stat"><div class="k">在线检索</div><a class="v" href="#search">打开</a></div>
+      <div class="stat"><div class="k">条目</div><div class="v" id="st-total">48 条</div></div>
+      <div class="stat"><div class="k">证据分级</div><div class="v small" id="st-levels"><span class="lv-dot lv-a"></span>A 18<span class="lv-dot lv-b" style="margin-left:8px"></span>B 26<span class="lv-dot lv-c" style="margin-left:8px"></span>C 4</div></div>
+      <div class="stat"><div class="k">权威来源</div><div class="v small">8 大类 · 38 项</div></div>
+      <div class="stat"><div class="k">许可</div><div class="v small">MIT</div></div>
+      <div class="stat"><div class="k">编写</div><div class="v small">AI 协助</div></div>
+    </div>
+
+    <div class="section" id="home-entry">
+      <h2 class="sec-title">在线检索<span class="en">SEARCH</span></h2>
+      <p class="sec-sub">按设备、现象、动作关键词检索全部 48 条建议，可按章节与证据等级筛选。让 AI 照书回答：见下方 Skill 说明。</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>按关键词查</h3><p>输入「瓦温」「振动」「真空」「吹灰」等，直接命中对应条目。</p><div class="tag"><a href="#search">去检索 →</a></div></div>
+        <div class="card"><h3>按章节查</h3><p>监盘与巡检、缺陷与消缺、操作与调整、检修与验收、安全与应急、学习与成长。</p><div class="tag"><a href="#toc">看目录 →</a></div></div>
+        <div class="card"><h3>让 AI 照书回答</h3><p>装上 ZM:PowerPlant Skill 后，直接问「#1 瓦温缓慢上涨要不要停机」，它先查条目再回答，并注明出自第几章第几条。</p><div class="tag"><a href="#about">看说明 →</a></div></div>
+      </div>
+    </div>
+
+    <div class="section" id="home-skill">
+      <h2 class="sec-title">AI 助手 Skill<span class="en">SKILL</span></h2>
+      <p class="sec-sub">支持 Claude Code 和 Codex。装上后直接问「替朋友担保签不签」式的火电问题——例如「#1 瓦温缓慢上涨要不要停机」「磨煤机出口温度偏高还能不能运行」，它先查书里的条目再回答，并注明出自第几章第几条。</p>
+      <div class="card"><p>Skill 目录位于仓库 <code>skills/Power-Plant/</code>（SKILL.md + agents/openai.yaml + references 三份文档），已通过官方校验。回答规则：命中条目按 7 字段模板展开并标注证据等级；查不到就明说「指南未覆盖」，给最相近条目与建议来源，不编造。</p><div class="tag"><a href="https://github.com/SUNSET-cloud1/HowToWorkBetter-Power-Plant/tree/main/skills/Power-Plant" target="_blank" rel="noopener">仓库中的 Skill →</a></div></div>
+    </div>
+
+    <div class="section" id="home-download">
+      <h2 class="sec-title">下载<span class="en">DOWNLOAD</span></h2>
+      <p class="sec-sub">本页即离线单文件（HTML），可离线打开。另有指南全文的 PDF、EPUB 与源文件。</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>离线单文件（HTML）</h3><p>当前这一页，无外部依赖（字体走 CDN，断网仍可读）。</p><div class="tag"><button class="linkbtn" id="dl-html" type="button">保存本页 →</button></div></div>
+        <div class="card"><h3>PDF · EPUB（指南全文）</h3><p>48 条完整条目的排版全文，适合打印与阅读器。</p><div class="tag"><a href="download/指南全文.pdf" download>PDF →</a> · <a href="download/指南全文.epub" download>EPUB →</a></div></div>
+        <div class="card"><h3>指南源文件</h3><p>framework.md（目录框架）与 evidence-sources.md（证据来源清单），可自由编辑再发布。</p><div class="tag"><a href="https://github.com/SUNSET-cloud1/HowToWorkBetter-Power-Plant/blob/main/skills/Power-Plant/references/framework.md" target="_blank" rel="noopener">framework.md →</a></div></div>
+      </div>
+    </div>
+
+    <div class="section" id="home-read">
+      <h2 class="sec-title">查阅<span class="en">REFERENCE</span></h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>目录</h3><p>6 章 48 条的完整目录，按场景分节。</p><div class="tag"><a href="#toc">打开 →</a></div></div>
+        <div class="card"><h3>术语表</h3><p>两票三制、瓦温、滑压、反措等 24 个高频术语。</p><div class="tag"><a href="#glossary">打开 →</a></div></div>
+        <div class="card"><h3>核实记录</h3><p>证据来源清单、A/B/C 分级规则与引用规范。</p><div class="tag"><a href="#sources">打开 →</a></div></div>
+      </div>
+    </div>
+
+    <div class="section" id="home-longreads">
+      <h2 class="sec-title">长文<span class="en">LONG READS</span></h2>
+      <p class="sec-sub">把条目讲透的专题文章，面向运检一线。</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>夜班和生物钟：运行倒班怎么睡</h3><p>倒班是作息的天敌，但不是无解。</p><div class="tag"><a href="#reads#1">阅读 →</a></div></div>
+        <div class="card"><h3>巡检到底该怎么走</h3><p>听摸看闻四步法的现场版本。</p><div class="tag"><a href="#reads#2">阅读 →</a></div></div>
+        <div class="card"><h3>两票三制避坑清单</h3><p>不是应付检查的纸，是防错流程。</p><div class="tag"><a href="#reads#3">阅读 →</a></div></div>
+        <div class="card"><h3>发现缺陷要不要马上报</h3><p>缺陷上报的决策逻辑与话术。</p><div class="tag"><a href="#reads#4">阅读 →</a></div></div>
+        <div class="card"><h3>被考核或处分之后怎么办</h3><p>把挫折变成可复盘的成长。</p><div class="tag"><a href="#reads#5">阅读 →</a></div></div>
+        <div class="card"><h3>转岗或竞聘之前先做什么</h3><p>换方向前想清楚的几件事。</p><div class="tag"><a href="#reads#6">阅读 →</a></div></div>
+      </div>
+    </div>
+
+    <div class="section" id="home-more">
+      <h2 class="sec-title">其他语言与衍生工具<span class="en">MORE</span></h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>其他语言</h3><p>暂无翻译版本。仓库欢迎社区贡献翻译（English 等），翻译版本将在此列出。</p></div>
+        <div class="card"><h3>打勾清单（网页版）</h3><p>本站内置：把 48 条加入待办、标记做到没有、收藏，数据保存在本地浏览器。</p><div class="tag"><a href="#checklist">打开 →</a></div></div>
+        <div class="card"><h3>微信小程序版</h3><p>暂无。规划中：分类、收藏、每日一读、全文搜索，离线可用。</p></div>
+      </div>
+    </div>
+
+    <div class="alertbar"><b>重要声明：</b>本项目从未发行、也不会发行任何代币或数字资产。用本项目名称发布的任何币或数字资产都与本项目无关。看到这类币请当作骗局，不要购买。</div>
+  </div>
+</section>
+
+<!-- ANCHOR:SEARCH --><section id="search" class="view"><div class="wrap">
+  <h2 class="sec-title">在线检索<span class="en">SEARCH</span></h2>
+  <p class="sec-sub">输入设备、现象或动作关键词，或按章节、证据等级筛选。命中结果按章内性价比顺序排列。</p>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="输入关键词，如：瓦温、振动、真空、吹灰、两票、验收…">
+    <select id="f-chapter" aria-label="按章节筛选"></select>
+    <select id="f-level" aria-label="按证据等级筛选">
+      <option value="">全部等级</option>
+      <option value="A">A 强制条款</option>
+      <option value="B">B 规程/厂家</option>
+      <option value="C">C 经验/论文</option>
+    </select>
+  </div>
+  <div class="countline" id="search-count"></div>
+  <div id="search-results"></div>
+</div></section><!-- /ANCHOR:SEARCH -->
+
+<!-- ANCHOR:TOC --><section id="toc" class="view"><div class="wrap">
+  <h2 class="sec-title">目录<span class="en">CONTENTS</span></h2>
+  <p class="sec-sub">6 章 48 条，按场景分节；每条标注证据等级徽章。点击条目可直接跳到检索页定位。</p>
+  <div id="toc-root"></div>
+</div></section><!-- /ANCHOR:TOC -->
+
+<!-- ANCHOR:GLOSSARY --><section id="glossary" class="view"><div class="wrap">
+  <h2 class="sec-title">术语表<span class="en">GLOSSARY</span></h2>
+  <p class="sec-sub">火电运检高频术语，按拼音/常用度排序，供快速查阅。</p>
+  <div class="tblwrap"><table class="tbl">
+    <colgroup><col style="width:26%"><col style="width:74%"></colgroup>
+    <thead><tr><th>术语</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td>两票三制</td><td>工作票、操作票＋交接班制、巡回检查制、设备定期试验轮换制的合称，火电厂安全运行的基础制度；工作票/操作票要求见 GB 26860-2011 与 GB 26164.1-2010。</td></tr>
+      <tr><td>瓦温 / 瓦振</td><td>汽轮机轴承金属温度与轴承振动，判断轴瓦运行状态的核心监视参数，超限按运行规程处置。</td></tr>
+      <tr><td>汽包炉</td><td>带汽包（锅筒）的锅炉，亚临界及以下机组常见；汽包是汽水分离点，水位控制是关键。</td></tr>
+      <tr><td>直流炉</td><td>无汽包的锅炉，给水一次通过受热面直接变成过热蒸汽；超临界及以上机组采用，汽温调节以燃水比为主。</td></tr>
+      <tr><td>亚临界 / 超临界 / 超超临界</td><td>按主蒸汽压力划分：亚临界约 16–17MPa；超临界约 24MPa 以上；超超临界约 25–28MPa 且参数更高。运行策略差异很大。</td></tr>
+      <tr><td>滑压运行</td><td>低负荷时调门全开、锅炉汽压随负荷滑动的运行方式，节流损失小；与定压运行（调门节流稳压）相对。</td></tr>
+      <tr><td>深度调峰</td><td>机组在远低于额定负荷（如 30%–40%）下长时间运行以消纳新能源；低负荷稳燃是关键风险点。</td></tr>
+      <tr><td>最低稳燃负荷</td><td>不投油/等离子助燃也能稳定燃烧的最低负荷，由锅炉厂家与运行规程规定。</td></tr>
+      <tr><td>灭火放炮</td><td>锅炉灭火后未及时切断燃料，可燃物积聚再次爆燃；《防止电力生产事故的二十五项重点要求》重点防范。</td></tr>
+      <tr><td>制粉系统爆炸</td><td>煤粉浓度、温度、风速失控引起的爆炸；磨煤机出口温度是核心控制点。</td></tr>
+      <tr><td>吹灰</td><td>用蒸汽或压缩空气清除受热面积灰；按温差数据定频次，兼顾效率与受热面寿命。</td></tr>
+      <tr><td>排烟温度</td><td>锅炉尾部烟气排出温度；过高多因积灰、漏风或风量偏大，直接影响煤耗。</td></tr>
+      <tr><td>凝汽器真空 / 端差</td><td>真空指凝汽器内压力低于大气压的程度；端差为排汽温度与循环水出口温度之差，反映传热效果。</td></tr>
+      <tr><td>真空严密性试验</td><td>定期测定凝汽器真空下降速度以判断漏入空气量，指导查漏。</td></tr>
+      <tr><td>胶球清洗</td><td>用海绵胶球在线清洗凝汽器管内壁，维持传热效果。</td></tr>
+      <tr><td>减温水</td><td>喷入蒸汽以降低汽温的给水/凝结水；过量使用会导致汽温骤降、水塞，应以燃烧调节为主。</td></tr>
+      <tr><td>壁温</td><td>受热面金属壁温度监视值；超限加速蠕变与氧化皮生成，是金属监督核心参数。</td></tr>
+      <tr><td>W 点 / H 点</td><td>检修质量见证点（Witness）与停工待检点（Hold）；H 点未经检查不得进入下道工序，见 DL/T 838-2017。</td></tr>
+      <tr><td>A/B/C/D 修</td><td>检修等级：A 修（大修、全面解体）、B 修（针对性检修）、C 修（标准项目检修）、D 修（短时停机消缺），见 DL/T 838-2017。</td></tr>
+      <tr><td>金属监督</td><td>对高温高压部件（焊口、管道、螺栓）开展测厚、探伤、蠕变检测的技术监督体系。</td></tr>
+      <tr><td>二十五项反措</td><td>国家能源局《防止电力生产事故的二十五项重点要求》（2023 年版），反事故纲领性文件。</td></tr>
+      <tr><td>技术监督</td><td>对金属、热工、化学、绝缘、继保等专业开展的预防性监督工作。</td></tr>
+      <tr><td>预防性试验</td><td>按 DL/T 596-2021 对电气设备开展的定期试验，判断绝缘与设备状态。</td></tr>
+      <tr><td>超速试验</td><td>汽轮机超速保护动作试验，防止超速飞车，属二十五项反措重点。</td></tr>
+      <tr><td>一次调频</td><td>电网频率变化时机组自动增减出力的功能；与 AGC（自动发电控制）同为并网考核指标。</td></tr>
+      <tr><td>DCS / DEH / TSI / ETS</td><td>分散控制系统；数字电液调节系统；汽轮机监视仪表；汽轮机紧急跳闸系统。</td></tr>
+      <tr><td>仿真机</td><td>与集控室一致的操作培训系统，用于启停与事故演练。</td></tr>
+      <tr><td>OPL（一点课）</td><td>One Point Lesson，把老师傅经验固化成的一页式培训材料。</td></tr>
+      <tr><td>Anki</td><td>间隔重复记忆软件，适合背诵定值、流程与反措要点。</td></tr>
+    </tbody>
+  </table></div>
+</div></section><!-- /ANCHOR:GLOSSARY -->
+<!-- ANCHOR:SOURCES --><section id="sources" class="view"><div class="wrap">
+  <h2 class="sec-title">核实记录<span class="en">VERIFICATION</span></h2>
+  <p class="sec-sub">证据来源清单、分级规则与核验渠道。所有引用以可公开追溯的权威来源为准。</p>
+
+  <div class="tblwrap" style="margin-bottom:22px"><table class="tbl">
+    <colgroup><col style="width:16%"><col style="width:40%"><col style="width:44%"></colgroup>
+    <thead><tr><th>等级</th><th>含义</th><th>来源类型</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge a">A</span> 强制条款</td><td>「应/必须」类强制要求，违反即违规</td><td>强制性国标（GB）、《电力安全工作规程》、部委规章、《防止电力生产事故的二十五项重点要求》</td></tr>
+      <tr><td><span class="badge b">B</span> 规程/厂家</td><td>明确指导，可按现场条件调整</td><td>推荐性标准（GB/T、DL/T）、行业导则、设备厂家技术文件、企业内部运行/检修规程</td></tr>
+      <tr><td><span class="badge c">C</span> 经验/论文</td><td>有依据，需结合现场判断</td><td>期刊论文、技术报告、行业经验总结</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:14px;color:var(--steel)">权威来源（8 大类 · 38 项）</h3>
+  <div class="src-cat"><h4>1. 国家法律与部门规章</h4><ul>
+    <li>《中华人民共和国安全生产法》</li>
+    <li>《电力安全生产监督管理办法》（国家发展改革委令）</li>
+    <li>《电力可靠性管理办法（暂行）》（国家发展改革委令 2022 年第 50 号）</li>
+    <li>《生产安全事故应急预案管理办法》（应急管理部令）</li>
+    <li>《工贸企业有限空间作业安全规定》（应急管理部令第 13 号）</li>
+    <li>《特种作业人员安全技术培训考核管理规定》</li>
+  </ul></div>
+  <div class="src-cat"><h4>2. 强制性安全规程（A 级核心）</h4><ul>
+    <li>GB 26860-2011《电力安全工作规程 发电厂和变电站电气部分》（工作票、操作票、防误操作等）</li>
+    <li>GB 26164.1-2010《电业安全工作规程 第 1 部分：热力和机械》（热力机械工作票、动火、高处作业、检修隔离等）</li>
+  </ul></div>
+  <div class="src-cat"><h4>3. 反事故重点要求（A 级核心）</h4><ul>
+    <li>国家能源局《防止电力生产事故的二十五项重点要求》（2023 年版）——常用条目：防止锅炉灭火放炮；防止制粉系统爆炸；防止高温高压管道爆漏；防止汽轮机超速；防止轴系断裂与损坏；防止发电机损坏；防止电气误操作</li>
+  </ul></div>
+  <div class="src-cat"><h4>4. 国家标准与推荐性标准</h4><ul>
+    <li>GB 50660-2011《大中型火力发电厂设计规范》</li>
+    <li>GB/T 12145-2016《火力发电机组及蒸汽动力设备水汽质量》</li>
+    <li>GB/T 6075.2-2012《机械振动 在非旋转部件上测量和评价机器振动 第 2 部分：汽轮发电机组》</li>
+  </ul></div>
+  <div class="src-cat"><h4>5. 电力行业标准（DL/T）</h4><ul>
+    <li>DL/T 838-2017《发电企业设备检修导则》（检修分类、W/H 点、验收试运）</li>
+    <li>DL/T 610-2017《300MW 级锅炉运行导则》</li>
+    <li>DL/T 611-2017《300MW 级汽轮机运行导则》</li>
+    <li>DL/T 606 系列《火力发电厂能量平衡导则》（能耗诊断与计算）</li>
+    <li>DL/T 904-2015《火力发电厂技术经济指标计算方法》</li>
+    <li>DL/T 596-2021《电力设备预防性试验规程》</li>
+    <li>DL/T 438《火力发电厂金属技术监督规程》</li>
+  </ul></div>
+  <div class="src-cat"><h4>6. 集团与企业内部规程（B 级；开源版不直接引用内部原文）</h4><ul>
+    <li>发电集团安全生产管理制度（两票三制实施细则、反措实施细则等）</li>
+    <li>本厂《运行规程》《检修规程》《设备缺陷管理制度》《两票管理制度》《动火管理制度》</li>
+    <li>技术监督实施细则（金属、热工、化学、绝缘、继保）</li>
+  </ul></div>
+  <div class="src-cat"><h4>7. 设备厂家技术文件（B 级）</h4><ul>
+    <li>汽轮机/锅炉/发电机/主变压器/磨煤机/DCS 设备说明书与运行维护手册</li>
+    <li>报警定值清单、保护逻辑说明、联锁条件</li>
+    <li>检修工艺卡、安装与调试手册</li>
+  </ul></div>
+  <div class="src-cat"><h4>8. 期刊、报告与行业出版物（C 级）</h4><ul>
+    <li>期刊：《中国电力》《热力发电》《电力系统自动化》《汽轮机技术》《电站系统工程》《动力工程学报》</li>
+    <li>报告：技术监督报告、可靠性分析报告、机组性能试验报告、检修总结</li>
+    <li>出版物：电力行业标准汇编、国家能源局电力安全生产通报</li>
+  </ul></div>
+
+  <div class="section">
+    <h2 class="sec-title">核验渠道<span class="en">CHECK</span></h2>
+    <p class="sec-sub">引用具体条文号前建议到官方渠道核验最新版本；失败时标注「待核验」，不编造。</p>
+    <div class="grid cols-3">
+      <div class="card"><h3>国家标准全文公开系统</h3><p>查询 GB / GB/T 标准现行版本与全文。</p><div class="tag"><a href="https://openstd.samr.gov.cn/bzgk/gb/" target="_blank" rel="noopener">openstd.samr.gov.cn →</a></div></div>
+      <div class="card"><h3>国家能源局</h3><p>二十五项反措、电力安全生产规章的发布与修订。</p><div class="tag"><a href="https://www.nea.gov.cn/" target="_blank" rel="noopener">nea.gov.cn →</a></div></div>
+      <div class="card"><h3>国家发展改革委</h3><p>电力可靠性管理、电力安全生产监督管理等规章。</p><div class="tag"><a href="https://www.ndrc.gov.cn/" target="_blank" rel="noopener">ndrc.gov.cn →</a></div></div>
+    </div>
+    <div class="alertbar"><b>核验规则：</b>内部规程仅在内部使用；开源发布时替换为对应公开标准。具体定值与速率限值一律以本厂运行规程为准，本指南不给具体数值以免误导不同机组。</div>
+  </div>
+</div></section><!-- /ANCHOR:SOURCES -->
+
+<!-- ANCHOR:READS --><section id="reads" class="view"><div class="wrap">
+  <h2 class="sec-title">长文<span class="en">LONG READS</span></h2>
+  <p class="sec-sub">把条目讲透的专题文章。长文与条目相互对应，证据口径一致。</p>
+
+  <article class="article" id="reads#1">
+    <h3>夜班和生物钟：运行倒班怎么睡</h3>
+    <div class="a-sub">对应条目 1.2 · 证据：C（睡眠医学共识）</div>
+    <p>倒班是运行岗位绕不开的现实。五班三倒、四班三倒，生物钟被打乱不是矫情，是生理事实。但「乱」可以管理，靠的不是硬扛，是三件套：固定节奏、遮光、咖啡因纪律。</p>
+    <h4>主睡眠锚点</h4>
+    <p>不管怎么倒，给自己定一个尽量固定的「主睡眠时段」并守住它。下夜班后的补觉定在上午（如 8:00–11:00），不要一觉睡到天黑——那会把昼夜节律整个推翻。</p>
+    <h4>光照与遮光</h4>
+    <p>下夜班路上戴墨镜减少日光刺激；睡房用遮光帘，让身体相信「现在是晚上」。睡前 1 小时不看手机屏幕，蓝光会抑制褪黑素。</p>
+    <h4>咖啡因与进食</h4>
+    <p>咖啡、浓茶只在接班前半段喝，睡前 6 小时截断咖啡因。夜班进食以少量、清淡为主，避免高糖高油后犯困又睡不着。</p>
+    <h4>轮班方向</h4>
+    <p>条件允许时，倒班方向尽量「顺时针」（白→中→夜），比逆时针（白→夜→中）更顺应人体节律。这个往往由排班决定，个人能做的有限，但值得向值长提出。</p>
+    <p><b>说人话：</b>倒班的人不是靠「扛」，是靠「固定节奏＋遮光＋咖啡因纪律」把混乱压到最低。</p>
+  </article>
+
+  <article class="article" id="reads#2">
+    <h3>巡检到底该怎么走</h3>
+    <div class="a-sub">对应条目 1.3 · 证据：B（运行规程「巡回检查制」）</div>
+    <p>巡检不是走路打卡。它的全部价值在于「和昨天比」——同一台设备、同一个部位、同一个动作顺序，才能比出变化。</p>
+    <h4>四步法</h4>
+    <ul>
+      <li><b>听</b>：摩擦声、喘振声、泄漏嘶声、轴承异音。听针贴着轴承座，比隔空听强十倍。</li>
+      <li><b>摸</b>：轴承座温度、振动手感。同一部位每次都用同一只手、同一个姿势，才能形成手感基线。</li>
+      <li><b>看</b>：渗漏、变色、油位水位、紧固件松动、保温破损。</li>
+      <li><b>闻</b>：焦糊味（电气过热）、油味（渗漏）、氨味（水汽系统）。</li>
+    </ul>
+    <h4>工具清单</h4>
+    <p>测温枪、听针、手电、测振仪（可选）、巡检 PDA。工具要随身，别「下次带」。</p>
+    <h4>异常处理</h4>
+    <p>发现异常：拍照＋定位（设备号/部位）＋按缺陷单五要素记录（设备名称/部位/现象/发现时间/影响评估）。别只说「好像有点问题」。</p>
+    <p><b>说人话：</b>巡检最大的价值是「和昨天比」，不是「今天看一眼」。</p>
+  </article>
+
+  <article class="article" id="reads#3">
+    <h3>两票三制避坑清单</h3>
+    <div class="a-sub">对应条目 5.1 · 证据：A（GB 26860-2011 / GB 26164.1-2010）</div>
+    <p>两票三制不是应付检查的纸，是防错流程。绝大多数人身与设备事故，十有八九是「就这一次不走流程」。</p>
+    <h4>高频踩坑</h4>
+    <ul>
+      <li>先干活后补票——被查到就是无票作业，出事故就是责任定性。</li>
+      <li>票面安全措施没逐项打勾就开工——措施是保命的，不是流程装饰。</li>
+      <li>交叉作业不确认隔离边界——检修和运行同时碰一个系统。</li>
+      <li>交接班口头一句「大概没事」——隐患没书面交底，下一班不知道。</li>
+      <li>定期试验漏做不记录——备用设备「备而不可用」。</li>
+    </ul>
+    <h4>正确姿势</h4>
+    <ul>
+      <li>票面措施逐项确认、签字、打勾；杜绝补票。</li>
+      <li>开工前安全交底「三讲一落实」：讲任务、讲风险、讲措施，落实到人签字。</li>
+      <li>交叉作业前，运行与检修共同确认隔离边界。</li>
+      <li>交接班隐患双交：口头＋书面，接班者复述确认。</li>
+      <li>定期试验按日历执行并记录结果。</li>
+    </ul>
+    <p><b>说人话：</b>所有出大事的，都是「就这一次不走流程」；票和制不是考你的，是保你的。</p>
+  </article>
+
+  <article class="article" id="reads#4">
+    <h3>发现缺陷要不要马上报</h3>
+    <div class="a-sub">对应条目 2.1、2.2 · 证据：B（本厂《设备缺陷管理制度》）</div>
+    <p>「要不要马上报」的本质是分级决策。报不报不该凭感觉，该凭三问。</p>
+    <h4>决策三问</h4>
+    <ul>
+      <li>是否威胁人身或设备安全？——是，立即隔离并上报，没有第二种选项。</li>
+      <li>是否影响机组负荷或出力？——是，当班内上报并按需准备降负荷。</li>
+      <li>会不会自己恶化？——趋势向上（渗漏扩大、温度爬升），计划内处理；稳定，登记排期。</li>
+    </ul>
+    <h4>分级口径</h4>
+    <p>一类（紧急）：威胁安全、可能非停，立即处理；二类（重大）：需停机或降负荷处理；三类（一般）：可计划处理。分类决定「现在处理还是计划处理」，也是两票管理的前提。</p>
+    <h4>话术</h4>
+    <p>报缺陷说五要素：设备名称、部位、现象、发现时间、影响评估。检修一次带对工器具，你就少一次返工往返。</p>
+    <p><b>说人话：</b>报缺陷是花 2 分钟换一个提前量，不是找事；漏报才是把小事拖成大事。</p>
+  </article>
+
+  <article class="article" id="reads#5">
+    <h3>被考核或处分之后怎么办</h3>
+    <div class="a-sub">对应条目 6.2 · 证据：C（复盘实践；流程按本厂制度）</div>
+    <p>被考核很难受，但处置对了，它是职业早期最贵的「免费课」。</p>
+    <h4>第一步：先复盘，不辩解</h4>
+    <p>把事实摊开：时间线、操作记录、报警记录、监护人的说法。先弄清楚「发生了什么」，而不是先想「怎么解释」。情绪上头时做的申诉，基本都会后悔。</p>
+    <h4>第二步：问清依据</h4>
+    <p>找班组长或专工谈，问清楚考核依据是「哪条规程、哪个条款」。对照条款确认定性是否合理。有异议走正常申诉渠道，就事论事，不赌气不躺平。</p>
+    <h4>第三步：写成案例卡</h4>
+    <p>把事件写成「错题本」卡片：时间线、错在哪一步、下次怎么避免。别人犯过的错是最好的教材，自己犯过的更是。</p>
+    <h4>不做的</h4>
+    <p>不甩锅（领导最反感）、不反复解释同一件事、不因一次考核否定整个岗位。</p>
+    <p><b>说人话：</b>处分是最贵的教训，不把它变成能力，学费就白交了。</p>
+  </article>
+
+  <article class="article" id="reads#6">
+    <h3>转岗或竞聘之前先做什么</h3>
+    <div class="a-sub">对应条目 6.1 · 证据：B（本厂培训管理制度）＋C（职业决策通用框架）</div>
+    <p>换方向是正常的事，但裸辞和带着情绪竞聘是两件事。动身前先想清楚三件事。</p>
+    <h4>为什么走</h4>
+    <p>是逃避（干不动了、人际关系）还是成长（想学新东西、想换个赛道）？逃避式的离开，大概率在新岗位遇到同样的墙。</p>
+    <h4>去哪：对照技能矩阵</h4>
+    <p>找到目标岗位的技能矩阵（6.1），逐项对照自己差什么：检修转运行、运行转专工、现场转管理，差的技能完全不同。把差距列出来，这是你未来三个月的学习清单。</p>
+    <h4>带得走的资产</h4>
+    <p>把现岗位的「作品」整理好：检修记录、优化案例、培训材料、竞赛获奖。这些是竞聘材料，也是你到新岗位的起点。</p>
+    <h4>不做的</h4>
+    <p>裸辞、只看待遇不看要求、竞聘前不找目标岗位的人聊真实情况。找个人问「这岗位最难受的是什么」，比看十遍岗位 JD 有用。</p>
+    <p><b>说人话：</b>换赛道前先把「现在的积累」盘点成带得走的资产，而不是两手空空地重新开始。</p>
+  </article>
+</div></section><!-- /ANCHOR:READS -->
+
+<!-- ANCHOR:ABOUT --><section id="about" class="view"><div class="wrap">
+  <h2 class="sec-title">关于<span class="en">ABOUT</span></h2>
+  <p class="sec-sub">项目说明、许可、版本与内容治理规则。</p>
+  <div class="grid cols-3">
+    <div class="card"><h3>这是什么</h3><p>火电运检「如何活得更好」指南（ZM:PowerPlant）的可开源版本：把一线运检经验组织成按性价比排序的决策条目库，供人和 AI 共同使用。</p></div>
+    <div class="card"><h3>版本与许可</h3><p>v0.1.0 · MIT License · 作者匿名署名「电厂曹」· AI 协助编写。</p></div>
+    <div class="card"><h3>内容治理</h3><p>证据只引权威来源并按 A/B/C 分级；内部规程不公开原文；具体定值以本厂运行规程为准；拿不准的标注「待核验」，不编造。</p></div>
+  </div>
+  <div class="section">
+    <h2 class="sec-title">AI 照书回答（Skill）<span class="en">SKILL</span></h2>
+    <div class="card"><p>仓库 <code>skills/Power-Plant/</code> 提供 ZM:PowerPlant Skill，支持 Claude Code 和 Codex。装上后直接问「#1 瓦温缓慢上涨要不要停机」，它先查条目再回答，并注明出自第几章第几条；查不到就明说「指南未覆盖」，给最相近条目与建议来源。</p>
+    <div class="tag"><a href="https://github.com/SUNSET-cloud1/HowToWorkBetter-Power-Plant/tree/main/skills/Power-Plant" target="_blank" rel="noopener">查看 Skill →</a> · <a href="https://github.com/SUNSET-cloud1/HowToWorkBetter-Power-Plant/blob/main/README.md" target="_blank" rel="noopener">项目 README →</a></div></div>
+  </div>
+  <div class="section">
+    <h2 class="sec-title">已知限制<span class="en">LIMITS</span></h2>
+    <ul style="margin-left:20px;font-size:15px;color:#3E4A57">
+      <li>条目库当前 48 条，将持续扩充（目标覆盖更多辅机与检修工艺场景）。</li>
+      <li>暂未接入自动化构建与 CI；翻译版本欢迎社区贡献。</li>
+      <li>本页为离线单文件；PDF 与 EPUB 为指南全文的快照版本，随版本更新。</li>
+    </ul>
+  </div>
+  <div class="alertbar"><b>重要声明：</b>本项目从未发行、也不会发行任何代币或数字资产。用本项目名称发布的任何币或数字资产都与本项目无关。看到这类币请当作骗局，不要购买。</div>
+</div></section><!-- /ANCHOR:ABOUT -->
+
+<!-- ANCHOR:CHECKLIST --><section id="checklist" class="view"><div class="wrap">
+  <h2 class="sec-title">打勾清单<span class="en">CHECKLIST</span></h2>
+  <p class="sec-sub">把 48 条加入待办、标记做到、收藏。数据保存在本地浏览器（localStorage），不联网、不上传。</p>
+  <div class="chk-tabs" id="chk-tabs">
+    <button type="button" data-filter="all" class="active">全部</button>
+    <button type="button" data-filter="todo">待办</button>
+    <button type="button" data-filter="star">收藏</button>
+    <button type="button" data-filter="done">已做到</button>
+  </div>
+  <div class="countline" id="chk-stat"></div>
+  <div id="chk-list"></div>
+</div></section><!-- /ANCHOR:CHECKLIST -->
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div><h5>项目</h5><a href="https://github.com/SUNSET-cloud1/HowToWorkBetter-Power-Plant" target="_blank" rel="noopener">HowToWorkBetter-Power-Plant</a> · 火电运检「如何活得更好」指南 · v0.1.0</div>
+      <div><h5>许可</h5>MIT License，作者匿名署名「电厂曹」。</div>
+      <div><h5>内容</h5>证据只引权威来源（GB / DL/T / 安规 / 二十五项反措 / 厂家文件 / 期刊论文），按 A/B/C 分级。</div>
+    </div>
+    <div class="copy">本项目不发行任何代币或数字资产。本页为离线单文件，可保存后离线使用。</div>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const ENTRIES = [{"id":"1.1","chapter":1,"title":"接班前 15 分钟「三看」：报警记录、趋势曲线、缺陷单","scene":"集控运行，交接班时；任意机组","cost":"时间约 15 分钟/班｜风险 无｜资源 无","benefit":"建立本班设备状态基线，早发现隔夜变化，降低交班遗漏","evidence":"B｜本厂运行规程「交接班制」（两票三制组成部分）","level":"B","related":"5.1"},{"id":"1.2","chapter":1,"title":"重点参数「同工况对比」：负荷/汽温/汽压/真空/瓦温瓦振 与昨日同期、额定值对比登记","scene":"集控运行，监盘班中；任意机组","cost":"时间 5–10 分钟/班｜风险 无｜资源 无","benefit":"把「感觉正常」变成「有基线可查」，提前发现缓慢劣化","evidence":"B｜本厂运行规程；C｜参数劣化趋势分析类期刊论文（《中国电力》《热力发电》）","level":"B","related":"1.7"},{"id":"1.3","chapter":1,"title":"巡检「听摸看闻」四步法＋工具：测温枪、听针、手电、测振仪随身","scene":"集控运行/设备巡检岗，就地巡检；任意机组","cost":"时间每次 40–60 分钟｜风险 无｜资源 无（工具自备）","benefit":"轴承异音、局部过热、渗漏、异常气味多靠就地发现，是 DCS 看不到的信息源","evidence":"B｜本厂运行规程「巡回检查制」；A｜GB 26164.1-2010 安全防护相关要求","level":"A","related":"5.1"},{"id":"1.4","chapter":1,"title":"交接班「隐患交底」：未闭环缺陷、临时措施、薄弱设备 口头＋书面双交","scene":"集控运行/检修班组，交接班时","cost":"时间 5 分钟/班｜风险 无｜资源 无","benefit":"防止「以为对方知道」导致措施漏执行；安全事故多发生在交接不清后","evidence":"B｜本厂运行规程「交接班制」；A｜GB 26860-2011/GB 26164.1-2010 工作票与交接相关要求","level":"A","related":"5.1"},{"id":"1.5","chapter":1,"title":"报警分级响应：事故/预告/提醒三类报警，明确处置时限与升级路径","scene":"集控运行，监盘时；任意机组","cost":"时间按级别 1–30 分钟｜风险 低（按流程处置）｜资源 必要时协调值长/专工","benefit":"把「响铃就慌」变成「分级处置」，避免漏处理重要报警","evidence":"B｜本厂运行规程、DCS 报警定值说明书","level":"B","related":"2.1、5.7"},{"id":"1.6","chapter":1,"title":"定期工作「日历化」：疏水、排污、辅机切换、备用设备定期试验 按日历执行并打勾","scene":"集控运行，班中；任意机组","cost":"时间 10–20 分钟/项｜风险 低｜资源 无","benefit":"备用设备「备而可用」，防备用转备用失效；属两票三制「设备定期试验轮换制」","evidence":"B｜本厂运行规程「设备定期试验轮换制」","level":"B","related":"5.1"},{"id":"1.7","chapter":1,"title":"用趋势看劣化：调 24h/7d 趋势判断劣化速率，区分「变送器漂移」与「真实劣化」","scene":"集控运行，参数异常时；任意机组","cost":"时间 5–10 分钟｜风险 无｜资源 无","benefit":"先判断「表真不真、涨多快」，再决定处置级别；避免误停机或漏掉真劣化","evidence":"B｜本厂运行规程、DCS 说明书；C｜参数趋势预警类论文","level":"B","related":"1.8、3.2、5.7"},{"id":"1.8","chapter":1,"title":"参数越限「先对三表」：DCS 值、就地表计、冗余测点 三者比对后再定处置","scene":"集控运行，参数越限报警时","cost":"时间 3–5 分钟｜风险 低｜资源 必要时联系热工校验","benefit":"大量「假报警」来自测点故障；先确认测点真实性可避免误操作","evidence":"B｜本厂运行规程、热工仪表管理制度","level":"B","related":"1.7、2.1"},{"id":"2.1","chapter":2,"title":"缺陷三级分类：一类（紧急，威胁安全/可能非停）、二类（重大，需停机或降负荷处理）、三类（一般，可计划处理）","scene":"集控运行/检修，缺陷发现与受理时","cost":"时间 5 分钟判定｜风险 判定错误直接影响处置方式｜资源 与值长/检修确认","benefit":"分类决定「现在处理还是计划处理」，是两票管理的前提","evidence":"B｜本厂《设备缺陷管理制度》、DL/T 838-2017 检修分类","level":"B","related":"5.1"},{"id":"2.2","chapter":2,"title":"缺陷单「五要素」：设备名称/部位/现象/发现时间/影响评估","scene":"运行巡检发现缺陷、检修接单时","cost":"时间 2–3 分钟填写｜风险 无｜资源 无","benefit":"让检修一次带对工器具与备件，减少返工和二次往返","evidence":"B｜本厂《设备缺陷管理制度》","level":"B","related":"2.1"},{"id":"2.3","chapter":2,"title":"高温高压管道/阀门泄漏「先隔离、再报告、后处理」：隔离范围按系统图确认","scene":"集控运行，巡检或监盘发现泄漏时；汽水系统","cost":"时间 10–30 分钟｜风险 高（泄漏扩大/烫伤）｜资源 需要办理工作票、确认隔离边界","benefit":"先控住「漏点」再谈「修」，防止汽水喷出伤人、扩大损伤","evidence":"A｜GB 26164.1-2010 工作票制度（检修隔离要求）；B｜本厂运行规程事故处理章节","level":"A","related":"5.1、5.7"},{"id":"2.4","chapter":2,"title":"渗漏点「台账打卡」：记录位置/介质/首次发现时间/复发次数，跟踪复发率","scene":"运行/检修，日常巡检与消缺","cost":"时间 10 分钟/周维护台账｜风险 无｜资源 无","benefit":"小渗漏不台账化就会「漏成大事」；复发率数据支撑根因分析","evidence":"C｜渗漏治理经验总结、可靠性分析报告（《中国电力》等）","level":"C","related":"2.6"},{"id":"2.5","chapter":2,"title":"消缺后「双确认」：检修自检合格 ＋ 运行验收，试运时间按规程不少于规定值","scene":"检修消缺完工、运行验收时","cost":"时间 0.5–2 小时试运｜风险 低｜资源 检修、运行双方到位","benefit":"杜绝「消了又坏」；试运是发现返工的最后关口","evidence":"B｜DL/T 838-2017 检修验收要求、本厂检修管理规程","level":"B","related":"4.5"},{"id":"2.6","chapter":2,"title":"重复缺陷「根因分析」：同一部位 3 次及以上缺陷必须写根因分析报告（材质/工况/安装）","scene":"检修专业，缺陷统计分析时","cost":"时间 1–2 小时/份报告｜风险 无｜资源 需调历史数据","benefit":"治本不治标；一次根因分析常省下多次重复消缺","evidence":"C｜根因分析（RCA）实践论文；B｜DL/T 838-2017 检修记录要求","level":"A","related":"2.4"},{"id":"2.7","chapter":2,"title":"隐蔽部位「借停机窗口预防性检查」：内窥、测厚、着色探伤安排进 C/D 修","scene":"检修，机组检修计划编制时","cost":"时间 随检修窗口｜风险 低｜资源 需检测单位/仪器协调","benefit":"看不见的部位（汽缸内部、管道弯头）是爆管/断裂高发区，停机机会是唯一低成本窗口","evidence":"B｜DL/T 838-2017、金属技术监督要求（DL/T 438）","level":"B","related":"4.8"},{"id":"3.1","chapter":3,"title":"重大操作「预演＋唱票」：启停机、并网、切旁路等操作前桌面推演，执行中逐项唱票复诵","scene":"集控运行，重大操作前","cost":"时间 15–30 分钟预演｜风险 低（操作本身按票执行）｜资源 值长、机组长到位","benefit":"操作票是「防错」的最后一道闸，唱票复诵把误操作率压到最低","evidence":"A｜GB 26860-2011/GB 26164.1-2010 操作票制度；B｜本厂运行规程","level":"A","related":"5.1"},{"id":"3.2","chapter":3,"title":"负荷升降「速率受控」：按规程规定速率（滑压运行参数曲线）调整，控制汽温汽压波动","scene":"集控运行，负荷调整时","cost":"时间 随调整过程｜风险 中（速率失控→汽温汽压大幅波动）｜资源 与调度沟通负荷指令","benefit":"汽温骤变是金属疲劳、汽缸温差裂纹的主因；速率受控是最廉价的寿命保护","evidence":"B｜DL/T 610-2017《300MW级锅炉运行导则》、DL/T 611-2017《300MW级汽轮机运行导则》、本厂运行规程","level":"B","related":"1.7、5.7"},{"id":"3.3","chapter":3,"title":"燃烧调整「风煤配比微调」：以氧量/炉膛负压/CO 为基准，兼顾效率与结焦、NOx","scene":"集控运行，燃烧工况调整时","cost":"时间 10–20 分钟/次｜风险 低（微调幅度内）｜资源 必要时联系热工/专工","benefit":"风煤比失配直接烧钱（排烟损失、不完全燃烧）和结焦；微调几乎零成本","evidence":"B｜DL/T 610-2017；C｜燃烧优化论文（《热力发电》《中国电力》）","level":"B","related":"3.4、3.8"},{"id":"3.4","chapter":3,"title":"吹灰「按温差决策」：以受热面壁温差/排烟温度/减温水流量趋势决定吹灰频次","scene":"集控运行/锅炉专业，运行中","cost":"时间 每次吹灰 30–60 分钟蒸汽/空气消耗｜风险 低（控制汽温波动）｜资源 协调吹灰系统投入","benefit":"欠吹→排烟温度高、爆管风险；过度吹→受热面吹损；按数据定频次两头都省","evidence":"B｜DL/T 610-2017、锅炉厂家说明书；C｜受热面吹灰优化论文","level":"B","related":"3.3"},{"id":"3.5","chapter":3,"title":"凝汽器「真空与端差管理」：定期真空严密性试验、查漏、胶球清洗","scene":"集控运行/汽机专业，运行中","cost":"时间 严密性试验 30–60 分钟/月｜风险 低｜资源 查漏需协调停机窗口或在线检漏","benefit":"真空每降 1kPa 煤耗上升明显；端差管理是最直接的节能抓手","evidence":"B｜DL/T 611-2017、本厂运行规程；C｜凝汽器查漏与节能论文","level":"B","related":"3.2"},{"id":"3.6","chapter":3,"title":"制粉系统「防爆防堵」：磨出口温度、煤粉细度、风速控制，启停磨顺序","scene":"集控运行/锅炉专业，制粉系统运行与启停时","cost":"时间 随操作｜风险 高（煤粉爆炸/堵磨）｜资源 协调输煤、燃烧调整","benefit":"制粉爆炸是火电典型事故；控住出口温度与风速是低成本高收益的保命操作","evidence":"A｜《防止电力生产事故的二十五项重点要求》(2023)「防止锅炉制粉系统爆炸」；B｜DL/T 610-2017、磨煤机厂家说明书","level":"A","related":"5.7"},{"id":"3.7","chapter":3,"title":"深度调峰「低负荷稳燃预案」：确认最低稳燃负荷、等离子/微油枪备用、燃烧器摆角配合","scene":"集控运行，低负荷/深调时段","cost":"时间 预案编制一次性投入＋每班确认｜风险 高（灭火放炮）｜资源 等离子/油枪系统维护协调","benefit":"深调是趋势，稳燃预案不备好就可能灭火放炮非停；有预案才能接得住调度指令","evidence":"A｜《防止电力生产事故的二十五项重点要求》(2023)「防止锅炉灭火放炮」；B｜本厂运行规程最低稳燃负荷规定","level":"A","related":"5.3、5.7"},{"id":"3.8","chapter":3,"title":"汽温调整「减温水与燃烧配合」：以燃烧侧为主、减温水为辅，避免大流量减温水引起汽温骤降/水塞","scene":"集控运行，汽温调节时","cost":"时间 随调节过程｜风险 中（减温水猛增→汽温骤降、水塞）｜资源 无","benefit":"靠燃烧调汽温省煤省水，靠减温水硬压是「用危险换指标」","evidence":"B｜DL/T 610-2017、DL/T 611-2017；C｜汽温控制优化论文","level":"B","related":"3.3"},{"id":"3.9","chapter":3,"title":"启停操作「条件清单」：冲转、并网、解列、停炉/停机前按条件清单逐项确认","scene":"集控运行，机组启停全过程","cost":"时间 每次启停 10–20 分钟核对清单｜风险 高（条件不满足强行操作→设备损坏）｜资源 值长、机组长、检修到场配合","benefit":"冲转/并网条件缺一项就「抢一次」，代价是轴系损伤或误并列；清单核对是启停性价比最高的动作","evidence":"B｜DL/T 610-2017、DL/T 611-2017（启停条件与顺序）、本厂运行规程启停章节","level":"B","related":"3.1、5.7"},{"id":"4.1","chapter":4,"title":"检修「按 DL/T 838 定级」：A/B/C/D 修分级，检修项目按状态评估确定，避免过修与失修","scene":"设备检修专业，检修计划编制时","cost":"时间 计划编制 1–3 天｜风险 低（定级影响工期与费用）｜资源 需运行、技术监督数据支持","benefit":"过修烧钱、失修埋雷；定级合理是检修性价比的总开关","evidence":"B｜DL/T 838-2017《发电企业设备检修导则》","level":"B","related":"2.7、4.2"},{"id":"4.2","chapter":4,"title":"关键工序「W/H 点见证」：设置质量见证点（W）/停工待检点（H），未见证不得进入下道工序","scene":"检修实施阶段，关键工序前后","cost":"时间 每次见证 0.5–1 小时｜风险 低｜资源 质检/监理/运行三方到位","benefit":"H 点不设＝返工时才知道坏了；见证点是最便宜的质量保险","evidence":"B｜DL/T 838-2017、本厂检修质量管理","level":"B","related":"4.5"},{"id":"4.3","chapter":4,"title":"检修记录「一图一表一数据」：修前修后间隙/振动/温度数据对比表，验收有量化依据","scene":"检修实施与验收阶段","cost":"时间 每台设备 10–20 分钟记录｜风险 无｜资源 无","benefit":"数据对比让「修没修好」可量化，也是下次检修和根因分析的基础","evidence":"B｜DL/T 838-2017 检修记录要求","level":"B","related":"4.2、2.6"},{"id":"4.4","chapter":4,"title":"螺栓紧固「力矩标准化」：重要法兰/联轴器螺栓按力矩要求分级紧固，标注力矩值","scene":"检修实施阶段，汽机/锅炉重要结合面","cost":"时间 每处增加 5–10 分钟｜风险 低（按要求执行）｜资源 力矩扳手配置","benefit":"欠紧漏汽、过紧断裂；力矩管理是高温高压管道泄漏的头号预防措施","evidence":"B｜设备厂家检修工艺、本厂检修规程","level":"B","related":"2.3、4.8"},{"id":"4.5","chapter":4,"title":"试运「分部→整体」流程：单体试运、分部试运、整套启动逐级验收，冷态/热态标准分开","scene":"检修完工后，试运验收阶段","cost":"时间 分部试运 2–8 小时｜风险 低（逐级把关）｜资源 运行、检修、热工共同到场","benefit":"跳过分部试运直接整套启动，一次泄漏/振动异常就拖垮整个启动窗口","evidence":"B｜DL/T 838-2017 检修验收与试运要求","level":"B","related":"2.5"},{"id":"4.6","chapter":4,"title":"备件「寿命台账」：关键备件（轴承、密封、阀门内件）库存、寿命周期、更换记录管理","scene":"检修专业/物资管理，备件管理","cost":"时间 月度盘点 1–2 小时｜风险 无｜资源 与物资部门联动","benefit":"急件等备件=非停时间；台账清楚才能「该换就换、不误事也不囤死」","evidence":"B｜本厂物资与检修管理；C｜可靠性管理经验总结","level":"B","related":"2.1"},{"id":"4.7","chapter":4,"title":"交叉作业「动火＋隔离双管控」：动火票、安全隔离、监护人到位，检修与运行交叉界面清晰","scene":"检修期间，动火作业与运行设备交叉时","cost":"时间 动火前检查 10–20 分钟｜风险 高（火灾/误动运行设备）｜资源 监护人、消防措施","benefit":"动火失控是检修期火灾主因；隔离不清会误碰运行系统","evidence":"A｜GB 26164.1-2010 动火作业要求；B｜本厂动火票管理制度","level":"A","related":"5.1"},{"id":"4.8","chapter":4,"title":"金属监督「重点项目清单」：高温高压焊口、蠕变测点、管道壁厚按周期检测，纳入技术监督","scene":"检修/技术监督专业，停机检修窗口","cost":"时间 随检测项目（测厚/探伤）｜风险 低｜资源 需检测单位与仪器协调","benefit":"高温管道爆漏是二十五项反措重点防范事故；金属监督是「用检修窗口换十年安稳」","evidence":"A｜《防止电力生产事故的二十五项重点要求》(2023)「防止锅炉/汽水管道爆漏」；B｜DL/T 438《火力发电厂金属技术监督规程》","level":"A","related":"2.7"},{"id":"5.1","chapter":5,"title":"两票三制「红线执行」：工作票/操作票、交接班制/巡回检查制/设备定期试验轮换制，票面措施逐项落实","scene":"所有运行/检修作业；全天候","cost":"时间 办票 10–30 分钟/张｜风险 无（本身就是防风险）｜资源 运行、检修双方配合","benefit":"绝大多数人身与设备事故源于「图省事跳过流程」；两票三制是零成本保命条款","evidence":"A｜GB 26860-2011、GB 26164.1-2010 工作票/操作票制度；B｜本厂两票管理制度","level":"A","related":"1.1、1.3、1.4、1.6、2.1、3.1"},{"id":"5.2","chapter":5,"title":"安全交底「三讲一落实」：讲任务、讲风险、讲措施，落实到人签字确认","scene":"检修开工前、运行操作前","cost":"时间 5–10 分钟/次｜风险 无｜资源 无","benefit":"交底不清是「不知道风险就干活」的源头；签字让每个人都过脑一遍","evidence":"B｜集团/本厂安全管理要求（安全交底制度）","level":"B","related":"5.1"},{"id":"5.3","chapter":5,"title":"应急演练「每年一次全覆盖」：全厂停电、火灾、汽轮机超速/振动大、锅炉爆管等预案演练并复盘","scene":"运行/检修全员，年度计划","cost":"时间 每场 2–4 小时/年｜风险 低（桌面+实操结合）｜资源 需协调生产安排","benefit":"真事故来临时没有时间查规程；演练过的动作才做得出来","evidence":"A｜《生产安全事故应急预案管理办法》（应急管理部令）、电力安全生产监督管理办法演练要求；B｜本厂应急预案","level":"A","related":"5.7"},{"id":"5.4","chapter":5,"title":"有限空间作业「先通风、再检测、后作业」：氧含量/有毒气体检测合格方可进入，全程监护","scene":"检修，进入凝汽器、烟道、磨煤机、水箱等有限空间","cost":"时间 检测 15–30 分钟/次｜风险 高（缺氧/中毒）｜资源 检测仪、监护人","benefit":"有限空间事故「一人晕倒众人救、救一个倒一个」；检测+监护是唯一正确顺序","evidence":"A｜《工贸企业有限空间作业安全规定》（应急管理部令第13号）；B｜本厂有限空间管理制度","level":"A","related":"5.2"},{"id":"5.5","chapter":5,"title":"高处作业「脚手架验收」：搭设验收牌、安全带高挂低用、临边防护","scene":"检修，锅炉本体、烟道等高处作业","cost":"时间 验收 10–20 分钟｜风险 高（坠落）｜资源 架子工、验收人员","benefit":"高处坠落是检修期第一杀手；验收牌不挂＝安全谁都不负责","evidence":"A｜GB 26164.1-2010 高处作业章节；B｜本厂脚手架管理制度","level":"A","related":"5.2"},{"id":"5.6","chapter":5,"title":"电气操作「五防闭锁不解除」：防误闭锁装置运行中不得解锁，解锁须履行审批","scene":"电气运行/检修，倒闸操作时","cost":"时间 操作时间略增｜风险 无（防误本身是保险）｜资源 需审批流程","benefit":"误操作（带负荷拉刀闸等）后果是人身伤亡；解锁审批是最后一道闸","evidence":"A｜GB 26860-2011 操作管理要求；B｜本厂五防管理制度","level":"A","related":"5.1"},{"id":"5.7","chapter":5,"title":"事故处置「先保人身、再保设备、后保电量」：跳闸后按规程顺序处置，防止事故扩大","scene":"集控运行，机组跳闸/异常时","cost":"时间 按处置流程｜风险 高（处置顺序错误扩大事故）｜资源 值长统一指挥","benefit":"顺序错了小事故变大事故；先把「人」和「设备」稳住，电量最后考虑","evidence":"B｜本厂运行规程事故处理章节；A｜《防止电力生产事故的二十五项重点要求》(2023)","level":"A","related":"5.3、2.3"},{"id":"5.8","chapter":5,"title":"二十五项反措「年度对照自查」：逐条对照检查整改闭环，防典型事故重演","scene":"运行/检修/技术监督，年度安全计划","cost":"时间 集中自查 1–2 天/年｜风险 无｜资源 需多专业参与","benefit":"反措每一条背后都是真实事故；对照自查是最便宜的「买教训清单」","evidence":"A｜《防止电力生产事故的二十五项重点要求》(2023)","level":"A","related":"4.8、3.6、3.7"},{"id":"6.1","chapter":6,"title":"技能矩阵「岗位对标」：按岗位培训要求建立个人技能清单，逐项考评定级","scene":"新员工/转岗人员，职业发展","cost":"时间 建立 1–2 小时，季度更新｜风险 无｜资源 无","benefit":"知道自己「还差什么」比盲目学习省时间；对标才能谈晋升","evidence":"B｜本厂培训管理制度；C｜岗位胜任力研究","level":"B","related":"6.7"},{"id":"6.2","chapter":6,"title":"事故案例「错题本」：把误操作、异常处置写成案例卡片，定期复盘","scene":"运行/检修个人，日常积累","cost":"时间 每案例 15–30 分钟｜风险 无｜资源 无","benefit":"别人的事故是最好的教材；写一遍胜过读十遍","evidence":"C｜案例教学与复盘实践（行业培训经验）","level":"C","related":"6.8"},{"id":"6.3","chapter":6,"title":"仿真机「每月一练」：重点练启停、事故处理，记录评分改进","scene":"集控运行人员，技能保持","cost":"时间 每月 2–4 小时｜风险 无（仿真无风险）｜资源 仿真机排班","benefit":"事故处理不敢在真机上练；仿真机的错误是免费的","evidence":"B｜本厂仿真培训计划；C｜仿真培训有效性论文","level":"B","related":"5.7"},{"id":"6.4","chapter":6,"title":"规程变更「季度跟踪」：反措、规程、定值变更及时学习并签字确认","scene":"运行/检修全员，制度变更时","cost":"时间 每次 0.5–1 小时｜风险 无｜资源 无","benefit":"按旧规程操作=拿老地图开新车；变更签字是安全责任边界","evidence":"B｜本厂规程管理制度；A｜标准/反措更新须执行新版","level":"A","related":"5.8"},{"id":"6.5","chapter":6,"title":"老师傅「绝活 OPL」：把经验固化为 One Point Lesson，纳入班组培训","scene":"检修/运行班组，经验传承","cost":"时间 每篇 30–60 分钟｜风险 无｜资源 无","benefit":"老师傅退休带走的经验是最贵资产；OPL 让绝活留在班组","evidence":"C｜精益管理与 OPL 实践（行业经验）","level":"C","related":"6.2"},{"id":"6.6","chapter":6,"title":"新技术「跟踪清单」：DCS 优化、AI 预警诊断、数字孪生等应用案例收集评估","scene":"技术骨干/专工，技术储备","cost":"时间 每月 1–2 小时｜风险 无｜资源 无","benefit":"新技术（如 AI 预警）是「把老师傅经验变成系统能力」，早跟踪早受益","evidence":"C｜《中国电力》《热力发电》等期刊论文、行业技术报告","level":"C","related":"6.1"},{"id":"6.7","chapter":6,"title":"取证与继续教育「规划清单」：特种作业证、注册类证书、职称评审时间表","scene":"个人职业发展，年度规划","cost":"时间 备考与考试投入｜风险 无｜资源 培训与考试费用","benefit":"持证是岗位资格底线，职称是晋升硬通货；早规划不误窗口期","evidence":"A｜《特种作业人员安全技术培训考核管理规定》；B｜本厂任职资格要求","level":"A","related":"6.1"},{"id":"6.8","chapter":6,"title":"Anki「规程卡片化」：定值、流程、反措要点做成卡片，碎片时间复习","scene":"个人学习，碎片时间","cost":"时间 制卡 10–20 分钟/组，复习 5–10 分钟/天｜风险 无｜资源 无","benefit":"定值记不住=监盘心里没底；间隔重复是性价比最高的记忆方式","evidence":"C｜间隔重复与主动回忆学习科学研究；B｜本厂培训考核要求","level":"B","related":"6.2"}];
+const STATS = {"total":48,"chapters":{"1":{"title":"监盘与巡检","count":8},"2":{"title":"缺陷与消缺","count":7},"3":{"title":"操作与调整","count":9},"4":{"title":"检修与验收","count":8},"5":{"title":"安全与应急","count":8},"6":{"title":"学习与成长","count":8}},"levels":{"A":18,"B":26,"C":4}};
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---- 主页统计 ---- */
+document.getElementById('st-total').textContent = STATS.total + ' 条';
+document.getElementById('st-levels').innerHTML =
+  '<span class="lv-dot lv-a"></span>A ' + STATS.levels.A +
+  '<span class="lv-dot lv-b" style="margin-left:8px"></span>B ' + STATS.levels.B +
+  '<span class="lv-dot lv-c" style="margin-left:8px"></span>C ' + STATS.levels.C;
+
+/* ---- 路由 ---- */
+const VIEWS = ['home','search','toc','glossary','sources','reads','checklist','about'];
+function route(){
+  const raw = (location.hash || '#home').split('#').filter(Boolean);
+  const view = VIEWS.includes(raw[0]) ? raw[0] : 'home';
+  const anchor = raw[1];
+  VIEWS.forEach(v => {
+    document.getElementById(v).classList.toggle('active', v === view);
+    const nav = document.querySelector('.topnav a[data-view="' + v + '"]');
+    if (nav) nav.classList.toggle('active', v === view);
+  });
+  window.scrollTo(0, 0);
+  if (anchor) {
+    const el = document.getElementById('reads#' + anchor);
+    if (el) setTimeout(() => el.scrollIntoView({behavior:'smooth'}), 60);
+  }
+}
+window.addEventListener('hashchange', route);
+
+/* ---- 条目 HTML ---- */
+function entryHTML(e){
+  return '<div class="entry"><div class="head">' +
+    '<span class="id">' + e.id + '</span><span class="title">' + esc(e.title) + '</span>' +
+    '<span class="badge ' + e.level.toLowerCase() + '">' + e.level + '</span></div>' +
+    '<div class="meta"><div><b>场景</b>：' + esc(e.scene) + '</div>' +
+    '<div><b>成本</b>：' + esc(e.cost) + '</div>' +
+    '<div><b>收益</b>：' + esc(e.benefit) + '</div>' +
+    '<div><b>证据</b>：' + esc(e.evidence) + '</div></div>' +
+    (e.related ? '<div class="rel">关联条目：' + esc(e.related) + '</div>' : '') +
+    '</div>';
+}
+
+/* ---- 在线检索 ---- */
+const chSel = document.getElementById('f-chapter');
+chSel.innerHTML = '<option value="">全部章节</option>' +
+  Object.keys(STATS.chapters).map(k =>
+    '<option value="' + k + '">第 ' + k + ' 章 ' + esc(STATS.chapters[k].title) + '（' + STATS.chapters[k].count + '）</option>'
+  ).join('');
+function renderSearch(){
+  const q = ($('#q').value || '').trim().toLowerCase();
+  const ch = chSel.value;
+  const lv = document.getElementById('f-level').value;
+  const list = ENTRIES.filter(e => {
+    if (ch && String(e.chapter) !== ch) return false;
+    if (lv && e.level !== lv) return false;
+    if (q) {
+      const hay = (e.title + ' ' + e.scene + ' ' + e.cost + ' ' + e.benefit + ' ' + e.evidence + ' ' + e.related).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  document.getElementById('search-count').textContent = '命中 ' + list.length + ' 条 / 共 ' + ENTRIES.length + ' 条';
+  document.getElementById('search-results').innerHTML = list.map(entryHTML).join('') ||
+    '<p style="color:var(--gray)">没有命中。换个关键词试试，例如「瓦温」「真空」「吹灰」「两票」。</p>';
+}
+$('#q').addEventListener('input', renderSearch);
+chSel.addEventListener('change', renderSearch);
+document.getElementById('f-level').addEventListener('change', renderSearch);
+
+/* ---- 目录 ---- */
+function renderToc(){
+  const root = document.getElementById('toc-root');
+  root.innerHTML = Object.keys(STATS.chapters).map(k => {
+    const items = ENTRIES.filter(e => String(e.chapter) === k).map(e =>
+      '<div class="toc-item" data-id="' + e.id + '">' +
+      '<span class="id">' + e.id + '</span><span class="title">' + esc(e.title) + '</span>' +
+      '<span class="badge ' + e.level.toLowerCase() + '">' + e.level + '</span></div>'
+    ).join('');
+    return '<div class="toc-ch"><h3>第 ' + k + ' 章 ' + esc(STATS.chapters[k].title) + '</h3>' +
+      '<div class="cnt">' + STATS.chapters[k].count + ' 条 · 按性价比排序</div>' + items + '</div>';
+  }).join('');
+  root.querySelectorAll('.toc-item').forEach(el => {
+    el.addEventListener('click', () => {
+      location.hash = '#search';
+      setTimeout(() => { $('#q').value = el.dataset.id; renderSearch(); }, 80);
+    });
+  });
+}
+
+/* ---- 打勾清单 ---- */
+const LS_KEY = 'zmpp-checklist-v1';
+let chk = {};
+try { chk = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (e) { chk = {}; }
+function saveChk(){ try { localStorage.setItem(LS_KEY, JSON.stringify(chk)); } catch (e) {} }
+function chkState(id){ return chk[id] || (chk[id] = {done:false, star:false, todo:false}); }
+let chkFilter = 'all';
+function renderChk(){
+  const rows = ENTRIES.map(e => {
+    const st = chkState(e.id);
+    if (chkFilter === 'done' && !st.done) return '';
+    if (chkFilter === 'todo' && !st.todo) return '';
+    if (chkFilter === 'star' && !st.star) return '';
+    return '<div class="chk-row ' + (st.done ? 'done' : '') + '" data-id="' + e.id + '">' +
+      '<input type="checkbox" class="c-done" ' + (st.done ? 'checked' : '') + ' aria-label="标记做到">' +
+      '<div style="flex:1"><div class="t-title">' + e.id + ' ' + esc(e.title) + '</div>' +
+      '<div class="t-id">' + esc(e.scene) + '</div></div>' +
+      '<button class="star-btn ' + (st.star ? 'on' : '') + '" type="button" aria-label="收藏">' + '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8L3.5 9.7l5.9-.9z"/></svg>' + '</button>' +
+      '<button class="todo-btn ' + (st.todo ? 'on' : '') + '" type="button" aria-label="加入待办">待</button></div>';
+  }).join('');
+  document.getElementById('chk-list').innerHTML = rows ||
+    '<p style="color:var(--gray)">这个分组还没有条目。去「全部」里勾选或收藏。</p>';
+  const done = ENTRIES.filter(e => chk[e.id] && chk[e.id].done).length;
+  const star = ENTRIES.filter(e => chk[e.id] && chk[e.id].star).length;
+  document.getElementById('chk-stat').textContent =
+    '共 ' + ENTRIES.length + ' 条 · 已做到 ' + done + ' 条 · 已收藏 ' + star + ' 条';
+}
+document.getElementById('chk-tabs').addEventListener('click', ev => {
+  const btn = ev.target.closest('button[data-filter]');
+  if (!btn) return;
+  chkFilter = btn.dataset.filter;
+  document.querySelectorAll('#chk-tabs button').forEach(b => b.classList.toggle('active', b === btn));
+  renderChk();
+});
+document.getElementById('chk-list').addEventListener('change', ev => {
+  const row = ev.target.closest('.chk-row');
+  if (!row) return;
+  chkState(row.dataset.id).done = ev.target.checked;
+  saveChk(); renderChk();
+});
+document.getElementById('chk-list').addEventListener('click', ev => {
+  const btn = ev.target.closest('.star-btn, .todo-btn');
+  if (!btn) return;
+  const row = btn.closest('.chk-row');
+  const st = chkState(row.dataset.id);
+  if (btn.classList.contains('star-btn')) { st.star = !st.star; }
+  else { st.todo = !st.todo; }
+  saveChk(); renderChk();
+});
+
+/* ---- 保存本页（离线单文件） ---- */
+const dlBtn = document.getElementById('dl-html');
+if (dlBtn) dlBtn.addEventListener('click', () => {
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '火电运检指南站.html';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+});
+
+/* ---- 初始化 ---- */
+renderToc();
+renderSearch();
+renderChk();
+route();
+</script>
+</body>
+</html>

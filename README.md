@@ -160,6 +160,15 @@ python quick\_validate.py skills/Power-Plant
 
 完整示例（共 5 个，含运行处置、检修验收、安全规程、节能调整、未命中处理）见 `skills/Power-Plant/references/examples.md`。
 
+## 6. 指南站（交互式 HTML）
+
+项目附带一个单文件自包含的交互式指南站，把 48 条内容做成可直接打开的网页：
+
+* **入口**：`site/火电运检指南站.html` —— 双击用浏览器打开即可，无需服务器、无外部数据依赖（字体走 CDN，断网仍可读）。
+* **功能**：在线检索（关键词 + 章节 + 证据等级筛选）、目录（按章浏览并跳转定位）、术语表（28 个高频术语）、核实记录（证据来源 8 大类 38 项与 A/B/C 分级规则）、6 篇长文、打勾清单（待办 / 收藏 / 已做到，数据存本地浏览器 localStorage）、关于页；顶部导航为 hash 路由多视图。
+* **下载区**：`site/download/` 内含指南全文的排版版本 —— `指南全文.html`、`指南全文.pdf`、`指南全文.epub`，随版本更新。
+* 指南站与 Skill 数据同源（均由 `references/framework.md` 的 48 条条目生成），口径一致。
+
 ## 验证与测试
 
 
@@ -178,4 +187,4 @@ python quick\_validate.py skills/Power-Plant
 
 * 适用机组为多种机组通用（125–1000MW），适用岗位为集控运行与设备检修兼顾；具体定值一律以本厂运行规程为准。
 
-* 本地开发与测试已完成，**未初始化 Git，未上传 GitHub**。
+* 项目已发布：GitHub Public 仓库 `HowToWorkBetter-Power-Plant`（默认分支 main），含 v0.1.0 标签与 Release；指南站随仓库更新。
