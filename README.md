@@ -1,4 +1,3 @@
-![项目徽章](https://img.shields.io/badge/条目
 # ZM:PowerPlant —— 火电运检「如何活得更好」指南 Skill
 
 ## 1. 项目解决什么问题
